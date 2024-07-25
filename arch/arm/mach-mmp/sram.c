@@ -95,7 +95,7 @@ static int sram_probe(struct platform_device *pdev)
 	info->granularity = pdata->granularity;
 
 	info->gpool = gen_pool_create(ilog2(info->granularity), -1);
-	if (!info->gpool) {
+	if (!info->gpool || (!info->pool_name && pdata->pool_name)) {
 		dev_err(&pdev->dev, "create pool failed\n");
 		ret = -ENOMEM;
 		goto create_pool_err;
