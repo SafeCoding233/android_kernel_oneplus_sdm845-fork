@@ -182,6 +182,11 @@ static int tuntap_open(void *data)
 		}
 
 		pri->dev_name = uml_strdup(buffer);
+		if (pri->dev_name == NULL) {
+			printk(UM_KERN_ERR "tuntap_open : out of memory\n");
+			free_output_buffer(buffer);
+			return -ENOMEM;
+		}
 		output += IFNAMSIZ;
 		printk("%s", output);
 		free_output_buffer(buffer);

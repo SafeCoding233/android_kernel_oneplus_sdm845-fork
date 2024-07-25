@@ -326,6 +326,12 @@ static void __init versatile_dt_pci_init(void)
 	newprop->name = kstrdup("status", GFP_KERNEL);
 	newprop->value = kstrdup("disabled", GFP_KERNEL);
 	newprop->length = sizeof("disabled");
+	if (!newprop->name || !newprop->value) {
+		kfree(newprop->name);
+		kfree(newprop->value);
+		kfree(newprop);
+		return;
+	}
 	of_update_property(np, newprop);
 
 	pr_info("Not plugged into PCI backplane!\n");

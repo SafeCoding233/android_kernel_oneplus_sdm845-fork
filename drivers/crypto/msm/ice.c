@@ -514,6 +514,10 @@ static int qcom_ice_parse_clock_info(struct platform_device *pdev,
 		}
 		clki->max_freq = clkfreq[i];
 		clki->name = kstrdup(name, GFP_KERNEL);
+		if (!clki->name && name) {
+			ret = -ENOMEM;
+			goto out;
+		}
 		list_add_tail(&clki->list, &ice_dev->clk_list_head);
 	}
 out:

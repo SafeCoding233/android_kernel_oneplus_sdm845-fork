@@ -96,6 +96,10 @@ int fmc_fill_id_info(struct fmc_device *fmc)
 
 	/* Create the short name (FIXME: look in sdb as well) */
 	fmc->mezzanine_name = kstrdup(fmc->id.product_name, GFP_KERNEL);
+	if (!fmc->mezzanine_name && fmc->id.product_name) {
+		pr_info("      out of memory\n");
+		goto out;
+	}	
 
 out:
 	if (allocated) {
